@@ -31,7 +31,7 @@ import UIKit
     @objc optional func tableView(_ tableView:UITableView, dragCellFrom fromIndexPath:IndexPath, overIndexPath:IndexPath)
     
     /**
-     Weather a cell is dragable
+     Whether a cell is dragable
      
      - parameter tableView: tableView
      - parameter indexPath: target indexPath
@@ -42,7 +42,7 @@ import UIKit
     @objc optional func tableView(_ tableView: UITableView, canDragCellFrom indexPath: IndexPath, withTouchPoint point:CGPoint) -> Bool
     
     /**
-     Weather a cell is sticky during dragging
+     Whether a cell is sticky during dragging
      
      - parameter tableView: tableview
      - parameter indexPath: toIndex
@@ -52,7 +52,7 @@ import UIKit
     @objc optional func tableView(_ tableView: UITableView, canDragCellTo indexPath: IndexPath) -> Bool
     
     /**
-     Weather a cell is sticky during dragging
+     Whether a cell is sticky during dragging
      
      - parameter tableView: tableview
      - parameter indexPath: toIndex
@@ -71,9 +71,11 @@ import UIKit
 
 	
 	@objc optional func tableView(_ tableView: UITableView, endDragCellTo indexPath: IndexPath)
+
+    @objc optional func didFinishDraggingIn(_ tableView: UITableView)
 }
 
-/// A class to hold propertys
+/// A class to hold properties
 private class DragableHelper:NSObject,UIGestureRecognizerDelegate{
     
     weak var draggingCell:UITableViewCell?
@@ -261,6 +263,7 @@ public extension UITableView{
 											if let currentIndexPath = self.indexPathForRow(at: location) {
 												self.dragableDelegate?.tableView?(self, endDragCellTo: currentIndexPath)
 											}
+                                            self.dragableDelegate?.didFinishDraggingIn?(self)
                 })
             }
         }
